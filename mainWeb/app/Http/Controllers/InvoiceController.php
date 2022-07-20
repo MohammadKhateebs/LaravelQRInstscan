@@ -45,8 +45,14 @@ class InvoiceController extends Controller
     }
 public function search(Request $request)
 {
+
+    $request->validate([
+        'search'=> 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+
+    ]);
 if($request->ajax())
 {
+
 $output="";
 $products = DB::table('bills')->where('bill_no', $request->search)->get();
 if($products)
@@ -94,13 +100,16 @@ foreach ($products as $key => $product) {
 </div>
    ';
 
-
+}
 
 }
+
 return response()->json($output);
    }
+
    }
+
 }
 
 
-}
+

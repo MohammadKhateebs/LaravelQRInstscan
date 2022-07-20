@@ -1,6 +1,9 @@
 
 <x-guest-layout>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
     <div class="container  justify-content-center  " style="width:500px; ">
         <div class="row  shadow-lg " style=" margin-top:25%; margin-lift:auto;margin-right:auto;  border-radius:25px;">
 
@@ -41,12 +44,18 @@
                                                 </span> Invoice
                                                 number </label><input type="text" id="search" name="search"
                                                 autocomplete="off" placeholder="رقم الفاتورة / invoice number"
-                                                class="form-control ng-untouched ng-pristine ng-invalid">
+                                                class="form-control ng-untouched ng-pristine">
+
+
+
                                             <div id="show" style="visibility: hidden;" class="row mx-1mt-3 ">
                                                 <img style="hight:30px;width:50px;margin-left: auto; margin-right: auto;  "
                                                     src="{{ asset('public/image/loading_grey_dots.gif') }}" alt="Wait" />
                                             </div>
-                                            <div id="showdata" class="row mx-1 mt-3">
+                                            <div class=" font-bold text-start" id="errorsearch">
+                                                <span class="text-danger" id="searchErrorMsg"></span>
+                                            </div>
+                                            <div id="showdata" class="row mx-1 mt-3 font-bold">
 
 
                                             </div>
@@ -82,18 +91,17 @@
 
     <script type="text/javascript">
         $('#search-button').on('click',function(){
-
-
         if(document.getElementById("show").style.visibility =="hidden"){
         document.getElementById("show").style.visibility = "visible";
+        document.getElementById("errorsearch").style.visibility = "hidden";
         document.querySelector('#showdata').innerHTML ="";
-
-
 
     }else{
         document.getElementById("show").style.visibility = "hidden";
-    }
+        document.getElementById("errorsearch").style.visibility = "visible";
 
+
+    }
 
     $value= $('#search').val();
     console.log($value);
@@ -103,15 +111,28 @@
     url :"{{route('user.search')}}",
     data:{'search':$value},
     success:function(data){
-        console.log('im here');
+        console.log(data);
         myVar = setTimeout(showPage, 3000);
           function showPage() {
 
             document.getElementById("show").style.visibility = "hidden";
+            document.getElementById("errorsearch").style.visibility = "hidden";
             document.querySelector('#showdata').innerHTML =data;
           }
 
-    }
+    },
+    error: function(response) {
+        myVar = setTimeout(showPage, 3000);
+        function showPage() {
+
+            document.getElementById("show").style.visibility = "hidden";
+            document.getElementById("errorsearch").style.visibility = "visible";
+            $('#searchErrorMsg').text(response.responseJSON.errors.search);
+        }
+
+
+
+    },
     });
     })
     </script>
@@ -123,14 +144,15 @@
        $value= $("#search").val(content);
 
        if(document.getElementById("show").style.visibility =="hidden"){
+        document.getElementById("errorsearch").style.visibility = "hidden";
         document.getElementById("show").style.visibility = "visible";
 
 
     }else{
         document.getElementById("show").style.visibility = "hidden";
+        document.getElementById("errorsearch").style.visibility = "visible";
+
     }
-
-
     $value= $('#search').val();
     console.log($value);
     $.ajax({
@@ -139,15 +161,28 @@
     url :"{{route('user.search')}}",
     data:{'search':$value},
     success:function(data){
-        console.log('im here');
+
+        console.log('im here in error');
         myVar = setTimeout(showPage, 3000);
           function showPage() {
-
             document.getElementById("show").style.visibility = "hidden";
             document.querySelector('#showdata').innerHTML =data;
+            $('#searchErrorMsg').text(response.responseJSON.errors.search);
+
           }
 
-    }
+    },
+    error: function(response) {
+        myVar = setTimeout(showPage, 3000);
+        function showPage() {
+
+            document.getElementById("show").style.visibility = "hidden";
+
+        }
+
+
+
+    },
     });
 
 });

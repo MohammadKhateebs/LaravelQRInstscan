@@ -7,10 +7,6 @@
         <div class="row mx-auto row-100 shadow-lg "
             style=" margin-top: 10%; margin-lift:auto;margin-right:auto;  border-radius:25px;">
 
-
-
-
-
             <div class="col-sm-6 right-col d-none d-xl-block d-lg-block"
                 style="background:url({{ asset('public/image/loginImg.png') }}) ;border-radius:25px;">
 
@@ -55,7 +51,6 @@
                             مبيعات
                         </button>
 
-
                         <div id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
                             class="modal fade dir-rtl text-end">
                             <div class="modal-dialog modal-dialog-centered">
@@ -75,6 +70,9 @@
                                                         <img style="hight:30px;width:50px;margin-left: auto; margin-right: auto;  "
                                                             src="{{ asset('public/image/loading_grey_dots.gif') }}"
                                                             alt="Wait" />
+                                                    </div>
+                                                    <div class=" font-bold text-start" id="errorsearch">
+                                                        <span class="text-danger" id="searchErrorMsg"></span>
                                                     </div>
                                                     <div id="showdata" class="row mx-1 mt-3">
 
@@ -123,12 +121,16 @@
 
             if(document.getElementById("show").style.visibility =="hidden"){
             document.getElementById("show").style.visibility = "visible";
+            document.getElementById("errorsearch").style.visibility = "hidden";
+
             document.querySelector('#showdata').innerHTML ="";
 
 
 
         }else{
             document.getElementById("show").style.visibility = "hidden";
+            document.getElementById("errorsearch").style.visibility = "visible";
+
         }
 
 
@@ -140,15 +142,26 @@
         url :"{{route('user.search')}}",
         data:{'search':$value},
         success:function(data){
-            console.log('im here');
             myVar = setTimeout(showPage, 3000);
               function showPage() {
-
                 document.getElementById("show").style.visibility = "hidden";
                 document.querySelector('#showdata').innerHTML =data;
               }
 
-        }
+        },
+        error: function(response) {
+            myVar = setTimeout(showPage, 3000);
+            function showPage() {
+
+
+                document.getElementById("show").style.visibility = "hidden";
+                $('#searchErrorMsg').text(response.responseJSON.errors.search);
+                document.getElementById("errorsearch").style.visibility = "visible";
+            }
+
+
+
+        },
         });
         })
     </script>
