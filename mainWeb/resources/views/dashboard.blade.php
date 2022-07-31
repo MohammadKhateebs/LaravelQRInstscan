@@ -45,7 +45,7 @@
 
         </div>
         <div class="text-center pt-1 mb-5 pb-1">
-            <button style="color:white;background:yellow;" class="btn btn-warning btn-block fa-lg  mb-3 "
+            <button style="color:black;background:yellow;" class="btn btn-warning btn-block fa-lg  mb-3 "
                 type="submit" id="submit">اضافة</button>
 
         </div>

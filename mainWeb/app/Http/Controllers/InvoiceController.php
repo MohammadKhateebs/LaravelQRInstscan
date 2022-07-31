@@ -13,7 +13,8 @@ class InvoiceController extends Controller
     {
         return view('admin.index');
     }
-    public function addshow(){
+    public function addshow()
+    {
         return view('user.index');
     }
     public function store(Request $request)
@@ -43,22 +44,22 @@ class InvoiceController extends Controller
     {
         return view('user.buy');
     }
-public function search(Request $request)
-{
+    public function search(Request $request)
+    {
 
-    $request->validate([
-        'search'=> 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
 
-    ]);
-if($request->ajax())
-{
+        $request->validate([
+            'search' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
 
-$output="";
-$products = DB::table('bills')->where('bill_no', $request->search)->get();
-if($products)
-{
-foreach ($products as $key => $product) {
-    $output .= ' <div class="col">
+        ]);
+
+
+
+        $output = "";
+        $product = bill::where('bill_no', '=', $request->search)->first();
+        if ($product != null) {
+
+            $output .= ' <div class="col">
     <div class="col" style="font-size: 13px; ">
         <div>رقم الفاتورة :
             <span id="bill_no">' . $product->bill_no . '</span>
@@ -99,17 +100,15 @@ foreach ($products as $key => $product) {
     </div>
 </div>
    ';
+        }
+        else{
+            $output.='
 
+                    <div class="alert alert-danger">لايوجد نتائج لهذا الاستعلام ! </div>
+            ';
+        }
+
+
+        return response()->json($output);
+    }
 }
-
-}
-
-return response()->json($output);
-   }
-
-   }
-
-}
-
-
-

@@ -91,7 +91,7 @@
 
                                                 <div class="text-center pt-1 mb-5 pb-1">
                                                     <button
-                                                        class="btn btn-primary btn-block fa-lg  mb-3"
+                                                        class="btn  btn-block fa-lg  mb-3"
                                                         type="submit" id="submit">اضافة</button>
 
                                                 </div>

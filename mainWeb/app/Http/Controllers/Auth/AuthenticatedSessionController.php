@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\bill;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -15,11 +17,22 @@ class AuthenticatedSessionController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create($id)
     {
-        return view('auth.login');
-    }
 
+        $products = bill::where('bill_no','=',$id)->first();
+       if( $products != null){
+        return view('auth.login',['bills'=>$products]);
+
+       } else{
+        abort('404');
+       }
+
+    }
+    public function createno()
+    {
+         return view('auth.loginid');
+    }
     /**
      * Handle an incoming authentication request.
      *
@@ -49,6 +62,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/');
     }
 }

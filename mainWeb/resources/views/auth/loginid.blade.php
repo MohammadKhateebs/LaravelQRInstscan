@@ -1,4 +1,4 @@
-<x-guest-layout >
+<x-guest-layout>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -64,7 +64,7 @@
                                                         Maqassa <span class="times-font">P
                                                         </span> Invoice
                                                         number </label><input type="text" id="search" name="search"
-                                                        autocomplete="off" value="{{ $bills->bill_no }}" placeholder="رقم الفاتورة / invoice number"
+                                                        autocomplete="off" placeholder="رقم الفاتورة / invoice number"
                                                         class="form-control ng-untouched ng-pristine ng-invalid">
                                                     <div id="show" style="visibility: hidden;" class="row mx-1mt-3 ">
                                                         <img style="hight:30px;width:50px;margin-left: auto; margin-right: auto;  "
@@ -114,54 +114,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="{{ asset('public/image/scripts.746194727cbf2c07a056.js') }}"></script>
-<script>
-    window.onload = function(){
-console.log('im here');
-        $("#exampleModal").modal('show');
 
-       if(document.getElementById("show").style.visibility =="hidden"){
-        document.getElementById("errorsearch").style.visibility = "hidden";
-        document.getElementById("show").style.visibility = "visible";
-
-
-    }else{
-        document.getElementById("show").style.visibility = "hidden";
-        document.getElementById("errorsearch").style.visibility = "visible";
-
-    }
-    $value= $('#search').val();
-    console.log($value);
-    $.ajax({
-    type : 'get',
-    dataType: "json",
-    url :"{{route('user.search')}}",
-    data:{'search':$value},
-    success:function(data){
-
-        console.log('im here in error');
-        myVar = setTimeout(showPage, 3000);
-          function showPage() {
-            document.getElementById("show").style.visibility = "hidden";
-            document.querySelector('#showdata').innerHTML =data;
-            $('#searchErrorMsg').text(response.responseJSON.errors.search);
-
-          }
-
-    },
-    error: function(response) {
-        myVar = setTimeout(showPage, 3000);
-        function showPage() {
-
-            document.getElementById("show").style.visibility = "hidden";
-
-        }
-
-
-
-    },
-    });
-  }
-</script>
 
     <script type="text/javascript">
         $('#search-button').on('click',function(){
@@ -183,14 +136,14 @@ console.log('im here');
 
 
         $value= $('#search').val();
-        console.log($value);
+
         $.ajax({
         type : 'get',
         dataType: "json",
         url :"{{route('user.search')}}",
         data:{'search':$value},
         success:function(data){
-
+             console.log(data);
             myVar = setTimeout(showPage, 3000);
               function showPage() {
                 document.getElementById("show").style.visibility = "hidden";
